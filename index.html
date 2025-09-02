@@ -235,51 +235,15 @@ body.light .msg.lusi { background: var(--msg-lusi-light); color: #000; }
 
 /* Responsividade */
 @media (max-width: 768px) {
-  header {
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    padding: 10px;
-  }
-  
-  header img {
-    width: 96px;
-    height: 96px;
-  }
-  
-  header span {
-    font-size: 24px;
-  }
-
-  #config {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 8px;
-    padding: 10px;
-  }
-
-  #config input, #themeSelect, button.action-btn {
-    width: 100%;
-  }
-
-  #inputArea {
-    flex-direction: column;
-    gap: 8px;
-    padding: 10px;
-  }
-
-  #messageInput, button.send-btn {
-    width: 100%;
-  }
-
-  .msg {
-    max-width: 100%;
-    padding: 12px;
-  }
-
-  pre {
-    font-size: 13px;
-  }
+  header { flex-direction: column; align-items: center; gap: 10px; padding: 10px; }
+  header img { width: 96px; height: 96px; }
+  header span { font-size: 24px; }
+  #config { flex-direction: column; align-items: stretch; gap: 8px; padding: 10px; }
+  #config input, #themeSelect, button.action-btn { width: 100%; }
+  #inputArea { flex-direction: column; gap: 8px; padding: 10px; }
+  #messageInput, button.send-btn { width: 100%; }
+  .msg { max-width: 100%; padding: 12px; }
+  pre { font-size: 13px; }
 }
 </style>
 </head>
@@ -323,13 +287,12 @@ let theme = localStorage.getItem("theme") || "system";
 apiKeyInput.value = apiKey;
 themeSelect.value = theme;
 
-// Função aplicar tema
+// Aplicar tema
 function applyTheme(){
   const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
   if(theme==="dark") document.body.className="dark";
   else if(theme==="light") document.body.className="light";
   else document.body.className= prefersDark ? "dark" : "light";
-
   lusiLogo.src = document.body.classList.contains("dark") ? "LusiLogoBlack.png" : "LusiLogoWhite.png";
 }
 applyTheme();
@@ -341,9 +304,10 @@ function saveState(){
   localStorage.setItem("theme", theme);
 }
 
-// Renderiza blocos de código com header e botão copiar
+// Renderizar código sem nome de linguagem
 function renderCodeBlock(content){
-  const header = "Código"; // Sempre "Código" no topo
+  content = content.replace(/^\s*\w+\n/, ""); // remove "Python", "Lua", etc
+  const header = "Código";
   return `<div class="code-block">
             <div class="code-header">
               <span>${header}</span>
@@ -353,7 +317,7 @@ function renderCodeBlock(content){
           </div>`;
 }
 
-// Adiciona mensagem ao chat
+// Adicionar mensagem
 function addMessage(role, content, isLoader=false){
   const div = document.createElement("div");
   div.className = "msg " + role;
@@ -373,7 +337,6 @@ function addMessage(role, content, isLoader=false){
     }
   }
 
-  // Copiar código
   div.querySelectorAll(".copy-btn").forEach(btn=>{
     btn.onclick = e=>{
       const code = e.target.closest(".code-block").querySelector("code").textContent;
@@ -386,7 +349,7 @@ function addMessage(role, content, isLoader=false){
   chat.appendChild(div);
   chat.scrollTop = chat.scrollHeight;
 
-  if(!isLoader) {
+  if(!isLoader){
     conversation.push({role: role==="user"?"user":"assistant", content: content});
     saveState();
   }
@@ -394,7 +357,7 @@ function addMessage(role, content, isLoader=false){
   return div;
 }
 
-// Anima dots
+// Animar dots
 function animateDots(el){
   let count = 0;
   return setInterval(()=>{
@@ -490,7 +453,6 @@ async function callOpenRouter(){
     }
   }
 
-  // Atualiza conversa e salva
   conversation.push({role:"assistant", content:fullText});
   saveState();
 }
