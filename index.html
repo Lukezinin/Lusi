@@ -382,7 +382,7 @@ async function callOpenRouter(){
   if(!apiKey) return alert("Coloque sua API Key OpenRouter!");
 
   const messages = [
-    { role: "system", content: "Você é Lusi, uma IA amigável, divertida e prestativa. Responde de forma leve e descontraída, usando emoji quando apropriado. Formata códigos dentro de ``` corretamente e se tiver o nome da linguagem de programação nos ```. tire para funcionar corretamente." },
+    { role: "system", content: "Você é Lusi, uma IA amigável, divertida e prestativa. Responde de forma leve e descontraída, usando emoji quando apropriado. Formata códigos dentro de ``` corretamente e se tiver o nome da linguagem de programação nos ```. tire para funcionar corretamente EM NEMHUMA IPOTESE, NUNCA DEIXE O NOME DA LINGUAGEM NO CODIGO." },
     ...conversation.map(m => ({ role: m.role, content: m.content }))
   ];
 
